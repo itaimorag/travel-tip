@@ -1,7 +1,7 @@
 import { api } from '../../secret.js'
 import { storageService } from './storage.service.js'
 import { locService } from './loc.service.js'
-import { appController } from '../app.controller.js'
+// import { appController } from '../app.controller.js'
 export const mapService = {
     initMap,
     addMarker,
@@ -34,7 +34,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 }
                 locService.addTogLocations(location)
                 addMarker({lat:location.lat,lng:location.lng}, location.placeName)
-                appController.renderTable()
+                
             });
             renderMarkers()
         })

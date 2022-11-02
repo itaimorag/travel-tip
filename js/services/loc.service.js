@@ -4,26 +4,22 @@ import { storageService } from './storage.service.js'
 export const locService = {
     getLocs,
     addTogLocations,
-    deleteMarker,
+     removeMarker,
     updateQueryStringParams,
 }
 const STORAGE_KEY = 'locsStorage'
-var gLocations = storageService.load(STORAGE_KEY)||[
+var gLocations =storageService.load(STORAGE_KEY)||[
     { placeName: 'Greatplace', lat: 32.047104, lng: 34.832384 },
     { placeName: 'Neveragain', lat: 32.047201, lng: 34.832581 }
 ]
 
 function getLocs() {
-    return new Promise((resolve, reject) => {
-
-        setTimeout(() => {
-            resolve(gLocations)
-        }, 0)
-    })
+    console.log('gLocations',gLocations)
+    return Promise.resolve(gLocations)
 }
 
-function deleteMarker(idx){
-    gLocations.splice(idx,1)
+function removeMarker(placeName){
+    gLocations.splice(gLocations.findIndex(location=>location.placeName===placeName),1)
     storageService.save(STORAGE_KEY, gLocations)
 }
 
