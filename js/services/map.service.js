@@ -8,7 +8,8 @@ export const mapService = {
 
 // Var that is used throughout this Module (not global)
 var gMap
-
+//   `https://maps.googleapis.com/maps/api/geocode/json?place_id=ChIJeRpOeF67j4AR9ydy_PIzPuM&key=${api.GOOGLE_API_KEY}`
+//`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&components=country:GB&key=${api.GOOGLE_API_KEY}`
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
     return _connectGoogleApi()
@@ -40,9 +41,7 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-
     var elGoogleApi = document.createElement('script')
-    console.log(api.GOOGLE_API_KEY)
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${api.GOOGLE_API_KEY}`
     elGoogleApi.async = true
     document.body.append(elGoogleApi)
