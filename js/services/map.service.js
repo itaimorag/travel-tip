@@ -34,11 +34,16 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                     placeName: locationName,
                 }
                 locService.addTogLocations(location)
-                addMarker({lat:location.lat,lng:location.lng}, location.placeName)
+                // addMarker({lat:location.lat,lng:location.lng}, location.placeName)
                 appController.onGetLocs()
             });
             // renderMarkers()
+            console.log(`gMap = `, gMap)
         })
+}
+
+function updateMap(){
+
 }
 
 function addMarker(loc, title) {
