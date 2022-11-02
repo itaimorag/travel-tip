@@ -8,7 +8,7 @@ export const locService = {
     updateQueryStringParams,
 }
 const STORAGE_KEY = 'locsStorage'
-var gLocations =storageService.load(STORAGE_KEY)||[
+var gLocations =storageService.load(STORAGE_KEY).length||[
     { placeName: 'Greatplace', lat: 32.047104, lng: 34.832384 },
     { placeName: 'Neveragain', lat: 32.047201, lng: 34.832581 }
 ]
