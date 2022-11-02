@@ -1,7 +1,7 @@
 import { api } from '../../secret.js'
 import { storageService } from './storage.service.js'
 import { locService } from './loc.service.js'
-// import { appController } from '../app.controller.js'
+import { appController } from '../app.controller.js'
 export const mapService = {
     initMap,
     addMarker,
@@ -18,13 +18,14 @@ var gMap
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
     return _connectGoogleApi()
-        .then(() => {
-            console.log('google available')
-            gMap = new google.maps.Map(
-                document.querySelector('#map'), {
+    .then(() => {
+        console.log('google available')
+        gMap = new google.maps.Map(
+            document.querySelector('#map'), {
                 center: { lat, lng },
                 zoom: 14
             })
+            
             gMap.addListener("click", (mapsMouseEvent) => {
                 const locationName = 'need to make modal!!!'
                 const location = {
@@ -34,9 +35,9 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 }
                 locService.addTogLocations(location)
                 addMarker({lat:location.lat,lng:location.lng}, location.placeName)
-                
+                appController.onGetLocs()
             });
-            renderMarkers()
+            // renderMarkers()
         })
 }
 
@@ -50,24 +51,34 @@ function addMarker(loc, title) {
     return marker
 }
 
+// function removeMarkers(){
+//     appController.getPosition()
+//     .then(pos => {
+//         gMap = new google.maps.Map(
+//             document.querySelector('#map'), {
+//                 center: {lat: pos.coords.latitude, lng:pos.coords.longitude },
+//                 zoom: 14
+//             })
 
+//     })
+// }
 
 function panTo(lat, lng) {
     var laLatLng = new google.maps.LatLng(lat, lng)
     gMap.panTo(laLatLng)
 }
 
-function renderMarkers() {
-    locService.getLocs()
-        .then(locs => {
+function renderMarkers(locs) {
             console.log(`locs = `, locs)
             locs.map(location => location = new google.maps.Marker({
                 position: { lat: location.lat, lng: location.lng },
                 map: gMap,
                 title: location.placeName
+
             })
             )
-        })
+            console.log(`locs = `, locs)
+        
 }
 
 

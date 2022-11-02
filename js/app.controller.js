@@ -1,7 +1,10 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
-
+export const appController = {
+    onGetLocs,
+    getPosition,
+}
 
 
 window.onload = onInit
@@ -51,9 +54,7 @@ function renderTable(locs) {
     }
 
     function onDeleteMarker(placeName) {
-        // debugger
         locService.removeMarker(placeName)
-        mapService.renderMarkers()
         console.log(`foo = `)
         onGetLocs()
     }
@@ -73,6 +74,7 @@ function renderTable(locs) {
             .then(locs => {
                 console.log('locs',locs)
                 renderTable(locs)
+                mapService.renderMarkers(locs)
                 // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
             })
     }
