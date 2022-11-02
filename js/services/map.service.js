@@ -1,3 +1,4 @@
+import {api} from '../secret.js' 
 export const mapService = {
     initMap,
     addMarker,
@@ -39,9 +40,10 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = ''
+
     var elGoogleApi = document.createElement('script')
-    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`
+    console.log(api.GOOGLE_API_KEY)
+    elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${api.GOOGLE_API_KEY}`
     elGoogleApi.async = true
     document.body.append(elGoogleApi)
 
