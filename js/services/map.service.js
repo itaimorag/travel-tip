@@ -1,4 +1,4 @@
-import {api} from '../secret.js' 
+import {api} from '../../secret.js' 
 export const mapService = {
     initMap,
     addMarker,
