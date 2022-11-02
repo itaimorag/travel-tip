@@ -10,6 +10,7 @@ export const appController = {
 window.onload = onInit
 window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
+window.onSearch= onSearch
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 // window.renderTable = renderTable
@@ -34,9 +35,6 @@ function getPosition() {
 }
 
 function renderTable(locs) {
-
-
-
       const strHtml=   locs.map((location) => {
             return `
             <article>
@@ -46,11 +44,7 @@ function renderTable(locs) {
             </article>
                 `
         }).join('')
-
-
-        document.querySelector('.locs-list').innerHTML = strHtml
-
-
+     document.querySelector('.locs-list').innerHTML = strHtml
     }
 
 function onCopyLocation(){
@@ -99,4 +93,10 @@ function onCopyLocation(){
     function onPanTo() {
         console.log('Panning the Map')
         mapService.panTo(35.6895, 139.6917)
-    }
+}
+    function onSearch() {
+    const searchTxt = document.querySelector('.search-input')
+        // getWikiSearchDetails(searchTxt.value)
+        console.log(searchTxt.value)
+    searchTxt.value = ''
+}
