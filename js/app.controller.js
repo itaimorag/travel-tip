@@ -1,11 +1,21 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
+
+export const appController = {
+    renderTable,
+    
+    
+
+}
+
 window.onload = onInit
 window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onDeleteMarker = onDeleteMarker
+window.onGetMarker = onGetMarker
 
 function onInit() {
     mapService.initMap()
@@ -13,6 +23,7 @@ function onInit() {
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
+    renderTable()
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -21,6 +32,35 @@ function getPosition() {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
+}
+
+function renderTable() {
+    var strHtml = ''
+    locService.getLocs()
+        .then(locs => {
+            console.log(`locs = `, locs)
+            locs.map((location, idx) => {
+                strHtml += `<tr>
+                <td colspan="3">${location.placeName}</td>
+                <td><button onclick="onDeleteMarker(${idx})">X</button></td>
+                <td><button onclick="onGetMarker(${location.lat}, ${location.lng})">🌍</button></td>
+              </tr>
+                `
+            })
+            
+            document.querySelector('table').innerHTML = strHtml
+        })
+}
+
+function onDeleteMarker(idx){
+    locService.deleteMarker(idx)
+    renderTable()
+    mapService.renderMarkers()
+}
+
+function onGetMarker(lat,lng){
+    mapService.panTo(lat,lng)
+    locService.updateQueryStringParams(lat,lng)
 }
 
 function onAddMarker() {
@@ -38,11 +78,11 @@ function onGetLocs() {
 
 function onGetUserPos() {
     getPosition()
-    .then(pos=>{
-        mapService.panTo(pos.coords.latitude,pos.coords.longitude)
-        mapService.addMarker(({lat:pos.coords.latitude,lng:pos.coords.longitude}),'My Location')
-        
-    })
+        .then(pos => {
+            mapService.panTo(pos.coords.latitude, pos.coords.longitude)
+            mapService.addMarker(({ lat: pos.coords.latitude, lng: pos.coords.longitude }), 'My Location')
+
+        })
 }
 function onPanTo() {
     console.log('Panning the Map')

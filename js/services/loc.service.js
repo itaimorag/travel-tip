@@ -3,26 +3,28 @@ import { storageService } from './storage.service.js'
 
 export const locService = {
     getLocs,
-    addTogLocations
+    addTogLocations,
+    deleteMarker,
+    updateQueryStringParams,
 }
 const STORAGE_KEY = 'locsStorage'
 var gLocations = storageService.load(STORAGE_KEY)||[
-    { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-    { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
+    { placeName: 'Greatplace', lat: 32.047104, lng: 34.832384 },
+    { placeName: 'Neveragain', lat: 32.047201, lng: 34.832581 }
 ]
 
 function getLocs() {
     return new Promise((resolve, reject) => {
-        // gLocations = storageService.load(STORAGE_KEY)
-        // if (!gLocations) gLocations = [
-        //     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-        //     { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
-        // ]
 
         setTimeout(() => {
             resolve(gLocations)
-        }, 2000)
+        }, 0)
     })
+}
+
+function deleteMarker(idx){
+    gLocations.splice(idx,1)
+    storageService.save(STORAGE_KEY, gLocations)
 }
 
 function addTogLocations(location){
@@ -30,5 +32,13 @@ function addTogLocations(location){
     gLocations.push(location)
     storageService.save(STORAGE_KEY, gLocations)
 }
+
+function updateQueryStringParams(lat,lng){
+    const queryStringParams = `?lat=${lat}&lng=${lng}`
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
+        window.history.pushState({ path: newUrl }, '', newUrl)
+}
+
+
 
 
