@@ -16,7 +16,7 @@ window.onGetUserPos = onGetUserPos
 // window.renderTable = renderTable
 window.onDeleteMarker = onDeleteMarker
 window.onGetMarker = onGetMarker
-
+window.onCopyLocation=onCopyLocation
 function onInit() {
     mapService.initMap()
         .then(() => {
@@ -39,7 +39,7 @@ function renderTable(locs) {
             return `
             <article>
                 <div >${location.placeName}</div>
-                <div><button onclick="onDeleteMarker('${location.placeName}')">X</button></div>
+                <div><button onclick="onDeleteMarker('${location.placeName}',${location.lat}, ${location.lng})">X</button></div>
                 <div><button onclick="onGetMarker(${location.lat}, ${location.lng})">🌍</button></div>
             </article>
                 `
@@ -47,9 +47,17 @@ function renderTable(locs) {
      document.querySelector('.locs-list').innerHTML = strHtml
     }
 
-    function onDeleteMarker(placeName) {
+function onCopyLocation(){
+    var copyText = window.location.href
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText);
+}
+
+
+    function onDeleteMarker(placeName,lat,lng) {
         locService.removeMarker(placeName)
         console.log(`foo = `)
+        mapService.initMap(lat,lng)
         onGetLocs()
     }
 
@@ -64,6 +72,7 @@ function renderTable(locs) {
     }
 
     function onGetLocs() {
+        // mapService.initMap()
         locService.getLocs()
             .then(locs => {
                 console.log('locs',locs)
