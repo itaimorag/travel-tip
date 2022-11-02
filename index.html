@@ -7,15 +7,21 @@
     <title>TravelTip</title>
 </head>
 <body>
-    <h1>TravelTip Starter</h1>
+    <section class="top-page-line">
+        <h1>TravelTip Starter</h1>
+         <section class="search-bar">
+         <input placeholder="search" class="search-input" type="search" name="" id="">
+         <button class="search-btn" onclick="onSearch()">Search</button>
+          </section>     
+     </section>
+     <section class="contant">
+     <section class="wetherToday"></section>
+ 
     <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+</section>
     <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <!-- <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button> -->
-    <!-- <button onclick="onPanTo()"class="btn-pan">Pan Map to Tokyo</button> -->
     <button onclick="onCopyLocation()"class="btn-copy">Copy location</button>
     <div class="locs-list"></div>
-    
 
     <script type="module" src="js/app.controller.js"></script>
 </body>
