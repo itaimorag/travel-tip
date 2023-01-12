@@ -10,23 +10,31 @@
     <section class="top-page-line">
         <img class="logo" src="img/logo.PNG" alt="logo" srcset="">
          <section class="search-bar">
-         <input placeholder="search" class="search-input" type="search" name="" id="">
-         <button class="search-btn" onclick="onSearch()">Search</button>
+            <form class="search-loc-form" onsubmit="onSearch(event)">
+                <input placeholder="search" class="search-input" type="search" name="" id="">
+                <button class="search-btn">Search</button>
+            </form>
           </section>     
      </section>
      <section class="contant">
-     <section class="wetherToday"></section>
- 
-    <div class="map" id="map" style="width: 100%; height: 1500px;"></div>
+     <!-- <section class="wetherToday"></section> -->
+     <section class="map-btn-container">
+         <div class="action-btn-container">
+             <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+             <button onclick="onCopyLocation()"class="btn-copy">Copy location</button>
+            </div>
+            <div class="modal">
+                    <form class="add-location" onsubmit="onAddLocationName(event)">
+                        <input placeholder="Enter location name" class="add-marker-input" type="search" name="" id="">
+                        <button class="save-btn">Save</button> 
+                       </form>
+                </div>
+                <div class="locs-list"></div>
+         <div class="map" id="map">
+        </div>
+    </section>
+
 </section>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onCopyLocation()"class="btn-copy">Copy location</button>
-
-    
-    
-
->>>>>>> de44f4a539879b4733dc6dfadb95a065538779f9
-    <div class="locs-list"></div>
 
     <script type="module" src="js/app.controller.js"></script>
 </body>

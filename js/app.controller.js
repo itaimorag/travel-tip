@@ -4,11 +4,12 @@ import { api } from '../../secret.js'
 export const appController = {
     onGetLocs,
     getPosition,
+    onAddLocationName,
 }
 let addressToLONlNG=""
-const YOUR_ACCESS_KEY = "4550d726c167af335e15984e137db586"
-const ADDRESS_TO_LNLON = `http://api.positionstack.com/v1/forward
-? access_key = ${YOUR_ACCESS_KEY}`
+// const YOUR_ACCESS_KEY = "4550d726c167af335e15984e137db586"
+// const ADDRESS_TO_LNLON = `http://api.positionstack.com/v1/forward
+// ? access_key = ${YOUR_ACCESS_KEY}`
 
 window.onload = onInit
 window.onAddMarker = onAddMarker
@@ -18,6 +19,7 @@ window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 // window.renderTable = renderTable
 window.onDeleteMarker = onDeleteMarker
+window.onAddLocationName = onAddLocationName
 window.onGetMarker = onGetMarker
 window.onCopyLocation=onCopyLocation
 function onInit() {
@@ -28,6 +30,7 @@ function onInit() {
         })
         .catch(() => console.log('Error: cannot init map'))
 }
+
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
     console.log('Getting Pos')
@@ -40,8 +43,8 @@ function renderTable(locs) {
             return `
             <article>
                 <div >${location.placeName}</div>
-                <div><button onclick="onDeleteMarker('${location.placeName}',${location.lat}, ${location.lng})">X</button></div>
-                <div><button onclick="onGetMarker(${location.lat}, ${location.lng})">🌍</button></div>
+                <div><button title="delete location" class="remove-loc-btn" onclick="onDeleteMarker('${location.placeName}',${location.lat}, ${location.lng})">X</button></div>
+                <div><button title="go to this location" onclick="onGetMarker(${location.lat}, ${location.lng})">📍</button></div>
             </article>
                 `
         }).join('')
@@ -54,7 +57,6 @@ function onCopyLocation(){
 }
     function onDeleteMarker(placeName,lat,lng) {
         locService.removeMarker(placeName)
-        console.log(`foo = `)
         mapService.initMap(lat,lng)
         onGetLocs()
     }
@@ -65,6 +67,18 @@ function onCopyLocation(){
 function onAddMarker( location,title ) {
        
         mapService.addMarker(location,title)
+    }
+    function onAddLocationName(event){
+        event.preventDefault()
+        const addMarker = document.querySelector('.add-marker-input')
+        let locationName = addMarker.value
+        if(!locationName.trim()) return
+        mapService.addLocation(locationName)
+        addMarker.value=''
+        var elModal = document.querySelector('.modal')
+    elModal.style.display = 'none';
+        // mapService.addLocationNameBool(locationName)
+        
     }
     function onGetLocs() {
         // mapService.initMap()
@@ -88,7 +102,8 @@ function onAddMarker( location,title ) {
         console.log('Panning the Map')
         mapService.panTo(35.6895, 139.6917)
 }
-function onSearch() {
+function onSearch(ev) {
+    ev.preventDefault();
         const searchTxt = document.querySelector('.search-input')
         let locationName = searchTxt.value
         let apiKey = 'AIzaSyC8ufaTUEGfVhZBl5eTGO2OnBZixfmrcMU'
